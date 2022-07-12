@@ -128,8 +128,9 @@ Janus.useDefaultDependencies = function (deps) {
 			if (options.body) {
 				fetchOptions.body = JSON.stringify(options.body);
 			}
+			console.log(url);
 			var fetching = f(
-				/* url */ "wss://janus.conf.meetecho.com/ws",
+				url /* "wss://janus.conf.meetecho.com/ws" */,
 				fetchOptions
 			).catch(function (error) {
 				return p.reject({
@@ -295,7 +296,7 @@ Janus.init = function (options) {
 		Janus.warn = Janus.noop;
 		Janus.error = Janus.noop;
 		/**
-		 * vp9svctest.js에서 
+		 * vp9svctest.js에서
 		 */
 		if (options.debug === true || options.debug === "all") {
 			// Enable all debugging levels
@@ -352,6 +353,7 @@ Janus.init = function (options) {
 			callback = typeof callback == "function" ? callback : Janus.noop;
 			if (config == null) config = { audio: true, video: true };
 			if (Janus.isGetUserMediaAvailable()) {
+				console.log(123123)
 				navigator.mediaDevices
 					.getUserMedia(config)
 					.then(function (stream) {
@@ -719,6 +721,7 @@ function Janus(gatewayCallbacks) {
 
 	// Private event handler: this will trigger plugin callbacks, if set
 	function handleEvent(json, skipTimeout) {
+		console.log(json);
 		retries = 0;
 		if (
 			!websockets &&
@@ -1068,6 +1071,7 @@ function Janus(gatewayCallbacks) {
 				},
 
 				message: function (event) {
+					console.trace(event);
 					handleEvent(JSON.parse(event.data));
 				},
 

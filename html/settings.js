@@ -50,7 +50,8 @@
 // the whole session.
 //
 const mode = {
-	dev: "wss://janus.conf.meetecho.com/ws",
+	// dev: "wss://janus.conf.meetecho.com/ws",
+	dev: "http://192.168.1.8:8088/janus",
 	http: "http://" + window.location.hostname + ":8088/janus",
 };
 
