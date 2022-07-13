@@ -127,7 +127,18 @@ $(document).ready(function () {
 							iceState: function (state) {
 								Janus.log("ICE state changed to " + state);
 							},
+							/**
+							 * 미디어 상태가 변할 때마다 mediaState 정보를 받습니다.
+							 * @param {string} medium 매개물 분류로 해석됩니다. [value: video]
+							 * @param {string} on video on/off 여부
+							 * @param {number} mid 미디어 순번
+							 */
 							mediaState: function (medium, on, mid) {
+								console.log(
+									`medium: ${medium}`,
+									`on: ${on}`,
+									`mid: ${mid}`,
+								);
 								Janus.log(
 									"Janus " +
 										(on ? "started" : "stopped") +
@@ -138,6 +149,11 @@ $(document).ready(function () {
 										")"
 								);
 							},
+							/**
+							 * 
+							 * @param {boolean} on true/false
+							 * @returns 
+							 */
 							webrtcState: function (on) {
 								Janus.log(
 									"Janus says our WebRTC PeerConnection is " +

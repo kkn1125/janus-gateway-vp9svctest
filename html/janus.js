@@ -85,7 +85,6 @@ var defaultExtension = {
 					callback(null, event.data.sourceId);
 				}
 			} else if (event.data.type == "janusGetScreenPending") {
-				console.log("clearing ", event.data.id);
 				window.clearTimeout(event.data.id);
 			}
 		});
@@ -105,6 +104,7 @@ Janus.useDefaultDependencies = function (deps) {
 			return Array.isArray(arr);
 		},
 		webRTCAdapter: (deps && deps.adapter) || adapter,
+		// 주기적으로 서버와 통신하며 keepalive를 클라이언트로 전송합니다.
 		httpAPICall: function (url, options) {
 			var fetchOptions = {
 				method: options.verb,
@@ -128,7 +128,6 @@ Janus.useDefaultDependencies = function (deps) {
 			if (options.body) {
 				fetchOptions.body = JSON.stringify(options.body);
 			}
-			console.log(url);
 			var fetching = f(
 				url /* "wss://janus.conf.meetecho.com/ws" */,
 				fetchOptions
@@ -353,7 +352,6 @@ Janus.init = function (options) {
 			callback = typeof callback == "function" ? callback : Janus.noop;
 			if (config == null) config = { audio: true, video: true };
 			if (Janus.isGetUserMediaAvailable()) {
-				console.log(123123)
 				navigator.mediaDevices
 					.getUserMedia(config)
 					.then(function (stream) {
@@ -721,7 +719,6 @@ function Janus(gatewayCallbacks) {
 
 	// Private event handler: this will trigger plugin callbacks, if set
 	function handleEvent(json, skipTimeout) {
-		console.log(json);
 		retries = 0;
 		if (
 			!websockets &&
@@ -2306,7 +2303,6 @@ function Janus(gatewayCallbacks) {
 						}
 					}
 					if (receiverStreams) {
-						console.log(receiverStreams);
 						if (
 							receiverStreams.readableStream &&
 							receiverStreams.writableStream
@@ -2459,7 +2455,6 @@ function Janus(gatewayCallbacks) {
 						}
 					}
 					if (senderStreams) {
-						console.log(senderStreams);
 						if (senderStreams.readableStream && senderStreams.writableStream) {
 							senderStreams.readableStream
 								.pipeThrough(config.senderTransforms[sender.track.kind])
