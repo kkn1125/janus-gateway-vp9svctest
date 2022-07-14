@@ -534,6 +534,9 @@ $(document).ready(function () {
 	});
 });
 
+/**
+ * 유저 네임 enter 키 이벤트도 적용
+ */
 function checkEnter(field, event) {
 	var theCode = event.keyCode
 		? event.keyCode
@@ -596,6 +599,11 @@ function registerUsername() {
 	}
 }
 
+/**
+ * publish될 때마다 실행
+ * useAudio는 true값이 오며, unpublish 후 다시 publish를 누르면 제일 먼저 실행 됩니다.
+ * @param {boolean} useAudio 로컬 비디오 publish 유무
+ */
 function publishOwnFeed(useAudio) {
 	// Publish our stream
 	$("#publish").attr("disabled", true).unbind("click");
@@ -630,6 +638,9 @@ function publishOwnFeed(useAudio) {
 	});
 }
 
+/**
+ * 로컬 비디오 뮤트 on/off 토글
+ */
 function toggleMute() {
 	var muted = sfutest.isAudioMuted();
 	Janus.log((muted ? "Unmuting" : "Muting") + " local stream...");
@@ -639,6 +650,9 @@ function toggleMute() {
 	$("#mute").html(muted ? "Unmute" : "Mute");
 }
 
+/**
+ * 로컬 비디오 unpublished를 클릭 시 실행됩니다.
+ */
 function unpublishOwnFeed() {
 	// Unpublish our stream
 	$("#unpublish").attr("disabled", true).unbind("click");
@@ -646,6 +660,12 @@ function unpublishOwnFeed() {
 	sfutest.send({ message: unpublish });
 }
 
+/**
+ * 2명 이상일 때 함수가 실행됩니다. 새로운 remote feed를 추가합니다.
+ * @param {number} id publisher list의 id 값
+ * @param {string} display 본인 외 접속 된 사용자의 유저네임
+ * @param {object[]} streams 방에 접속되어 있는 각 유저의 stream 정보 / 0번이 자기자신
+ */
 function newRemoteFeed(id, display, streams) {
 	// A new feed has been published, create a new plugin handle and attach to it as a subscriber
 	var remoteFeed = null;
@@ -959,6 +979,10 @@ function newRemoteFeed(id, display, streams) {
 }
 
 // Helper to escape XML tags
+/**
+ * 유저 네임 입력 시 정규표현식으로 화살표 괄호를 유니코드로 치환합니다.
+ * @param {string} value 유저 네임 값
+ */
 function escapeXmlTags(value) {
 	if (value) {
 		var escapedValue = value.replace(new RegExp("<", "g"), "&lt");
@@ -968,7 +992,12 @@ function escapeXmlTags(value) {
 }
 
 // Helpers to create SVC-related UI for a new viewer
+/**
+ * 화면상에 나타나지 않고, 호출하는 방법 또한 찾지 못하였습니다.
+ * @param {number} feed
+ */
 function addSvcButtons(feed) {
+	console.log(feed);
 	var index = feed;
 	$("#remote" + index)
 		.parent()
